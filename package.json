@@ -1,0 +1,40 @@
+{
+  "name": "my-genkit-shopping-assistant-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "genkit:ui": "genkit start -- npx tsx --watch src/index.ts",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec tsx src/index.ts",
+    "pretty": "prettier --write 'src/**/*.{ts,js,json,md}'",
+    "lint": "eslint src/ --ext .ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@genkit-ai/googleai": "^1.17.1",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "genkit": "^1.17.1",
+    "tsx": "^4.20.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.3.0",
+    "eslint": "^9.34.0",
+    "jest": "^30.1.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "ts-jest": "^29.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0"
+  }
+}
