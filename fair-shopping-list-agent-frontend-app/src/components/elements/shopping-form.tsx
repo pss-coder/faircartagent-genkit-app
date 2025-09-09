@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "../ui/input"
+import { runFlow } from "@genkit-ai/next/client"
+import { shoppingSuggestionGeneratorFlow } from "@/genkit/shoppingItemsSuggestionGenFlow"
 
 const FormSchema = z.object({
   budget: z.number().min(1).max(10000),
@@ -32,7 +34,7 @@ export function ShoppingForm() {
     }
   })
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     // Ensure budget is a number and items is an array
     const budget = Number(data.budget);
     const itemsArr = data.items
@@ -42,13 +44,23 @@ export function ShoppingForm() {
 
       console.log({ budget, items: itemsArr });
 
-    toast("Shopping Plan", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
-          <code className="text-white">{JSON.stringify({ budget, items: itemsArr }, null, 2)}</code>
-        </pre>
-      ),
-    });
+      // Regular (non-streaming) approach
+      const result = await runFlow<typeof shoppingSuggestionGeneratorFlow>({
+        url: '/api/shop',
+        input: { items: itemsArr },
+      });
+
+      console.log('Shopping Suggestions:', result.results.flatMap(r => r.suggestions));
+
+      toast.success("Shopping Suggestions generated! Check console for details.");
+
+    // toast("Shopping Plan", {
+    //   description: (
+    //     <pre className="mt-2 w-[320px] rounded-md bg-neutral-950 p-4">
+    //       <code className="text-white">{JSON.stringify({ budget, items: itemsArr }, null, 2)}</code>
+    //     </pre>
+    //   ),
+    // });
   }
 
   return (
